@@ -14470,6 +14470,16 @@ spec:
       labels:
         app.kubernetes.io/name: argo-rollouts
     spec:
+      affinity:
+        # Add node affinity to ensure we are on amd64 and not arm nodes
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
       containers:
       - image: argoproj/argo-rollouts:v0.10.2
         imagePullPolicy: Always
